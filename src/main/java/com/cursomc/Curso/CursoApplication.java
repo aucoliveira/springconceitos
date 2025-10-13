@@ -1,18 +1,14 @@
 package com.cursomc.Curso;
 
-import com.cursomc.Curso.domain.Categoria;
-import com.cursomc.Curso.domain.Cidade;
-import com.cursomc.Curso.domain.Estado;
-import com.cursomc.Curso.domain.Produto;
-import com.cursomc.Curso.repositories.CategoriaRepository;
-import com.cursomc.Curso.repositories.CidadeRepository;
-import com.cursomc.Curso.repositories.EstadoRepository;
-import com.cursomc.Curso.repositories.ProdutoRepository;
+import com.cursomc.Curso.domain.*;
+import com.cursomc.Curso.domain.enums.TipoCliente;
+import com.cursomc.Curso.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -32,6 +28,12 @@ public class CursoApplication implements CommandLineRunner {
 
     @Autowired
     CidadeRepository cidadeRepository;
+
+    @Autowired
+    ClienteRepository clienteRepository;
+
+    @Autowired
+    EnderecoRepository enderecoRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -64,5 +66,22 @@ public class CursoApplication implements CommandLineRunner {
 
         estadoRepository.saveAll(Arrays.asList(est1,est2));
         cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+
+        Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com","23654898542",
+                TipoCliente.PESSOAFISICA);
+
+        cli1.getTelefones().addAll(Arrays.asList("00000000000", "11111111111"));
+
+        Endereco e1 = new Endereco(null, "Rua 7", "256", "Casa Alta","Tabapuá",
+                "61635270", cli1, c1);
+
+        Endereco e2 = new Endereco(null, "Rua 10", "586", "comercio",
+                "Antonio Bezerra","61635270", cli1, c2);
+
+
+        cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+
+        clienteRepository.save(cli1);
+        enderecoRepository.saveAll(Arrays.asList(e1,e2));
     }
 }
