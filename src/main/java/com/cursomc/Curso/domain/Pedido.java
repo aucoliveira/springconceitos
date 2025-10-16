@@ -1,5 +1,8 @@
 package com.cursomc.Curso.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -16,11 +19,15 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonFormat(pattern = "dd/MM/yyy HH:mm")
     private Date instantePedido;
 
+    @JsonManagedReference
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
     private Pagamento pagamento;
 
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name="cliente_id")
     private Cliente cliente;
