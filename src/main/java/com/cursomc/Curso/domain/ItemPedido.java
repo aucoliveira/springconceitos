@@ -1,6 +1,5 @@
 package com.cursomc.Curso.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -62,7 +61,7 @@ public class ItemPedido implements Serializable {
         this.preco = preco;
     }
 
-    @JsonBackReference
+   @JsonIgnore
     public Pedido getPedido() {
         return id.getPedido();
     }
